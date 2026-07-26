@@ -1,0 +1,46 @@
+[project]
+name = "ua-sun-tg-bot"
+version = "0.1.0"
+description = "Telegram bot for mentioning group members by tags instead of usernames"
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = [
+    "aiogram>=3.15,<4",
+    "SQLAlchemy[asyncio]>=2.0,<3",
+    "aiosqlite>=0.20",
+    "alembic>=1.13",
+    "pydantic>=2.7",
+    "pydantic-settings>=2.4",
+    "tzdata>=2024.1",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "pytest-asyncio>=0.23",
+    "ruff>=0.6",
+]
+
+[project.scripts]
+ua-sun-bot = "bot.__main__:run"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["bot*"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py39"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "ASYNC"]
+# Проєкт має лишатися запускним на Python 3.9 (така версія стоїть локально),
+# тому typing.Optional/List і не переписуємо на X | None та list[...].
+ignore = ["UP006", "UP007", "UP035", "UP045"]
