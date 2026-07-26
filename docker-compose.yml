@@ -1,0 +1,24 @@
+services:
+  bot:
+    build: .
+    image: ua-sun-tg-bot:latest
+    container_name: ua-sun-tg-bot
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      # Шлях усередині контейнера; ./data з хоста монтується сюди.
+      DATABASE_URL: sqlite+aiosqlite:///data/bot.db
+    volumes:
+      - ./data:/app/data
+    # Показує різницю між «процес живий» і «апдейти обробляються».
+    healthcheck:
+      test: ["CMD", "python", "/usr/local/bin/healthcheck.py"]
+      interval: 60s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "5"
