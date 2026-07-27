@@ -1,4 +1,4 @@
-; Варіант без Docker: код у /opt/ua-sun-tg-bot, venv поруч.
+; Варіант без Docker: код у /app/ua-sun-tg-bot, venv поруч.
 ;   sudo cp deploy/ua-sun-tg-bot.service /etc/systemd/system/
 ;   sudo systemctl daemon-reload && sudo systemctl enable --now ua-sun-tg-bot
 ; Якщо розгортаєш через docker compose, цей unit не потрібен —
@@ -13,10 +13,10 @@ Wants=network-online.target
 Type=simple
 User=uasunbot
 Group=uasunbot
-WorkingDirectory=/opt/ua-sun-tg-bot
-EnvironmentFile=/opt/ua-sun-tg-bot/.env
-ExecStartPre=/opt/ua-sun-tg-bot/.venv/bin/alembic upgrade head
-ExecStart=/opt/ua-sun-tg-bot/.venv/bin/python -m bot
+WorkingDirectory=/app/ua-sun-tg-bot
+EnvironmentFile=/app/ua-sun-tg-bot/.env
+ExecStartPre=/app/ua-sun-tg-bot/.venv/bin/alembic upgrade head
+ExecStart=/app/ua-sun-tg-bot/.venv/bin/python -m bot
 Restart=always
 RestartSec=5s
 
@@ -28,7 +28,7 @@ NoNewPrivileges=true
 PrivateTmp=true
 ProtectSystem=strict
 ProtectHome=true
-ReadWritePaths=/opt/ua-sun-tg-bot/data
+ReadWritePaths=/app/ua-sun-tg-bot/data
 ProtectKernelTunables=true
 ProtectControlGroups=true
 RestrictSUIDSGID=true

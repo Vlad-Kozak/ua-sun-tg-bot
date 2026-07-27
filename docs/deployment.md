@@ -46,10 +46,10 @@ polling і сам ходить до Telegram. Вхідних з'єднань н�
 ## Крок 2. Викласти код на сервер
 
 ```bash
-sudo mkdir -p /opt/ua-sun-tg-bot
-sudo chown "$USER" /opt/ua-sun-tg-bot
-git clone <адреса-репозиторію> /opt/ua-sun-tg-bot
-cd /opt/ua-sun-tg-bot
+sudo mkdir -p /app/ua-sun-tg-bot
+sudo chown "$USER" /app/ua-sun-tg-bot
+git clone <адреса-репозиторію> /app/ua-sun-tg-bot
+cd /app/ua-sun-tg-bot
 ```
 
 ---
@@ -165,7 +165,7 @@ INFO  aiogram.dispatcher: Start polling
 ### Оновлення
 
 ```bash
-cd /opt/ua-sun-tg-bot
+cd /app/ua-sun-tg-bot
 git pull
 docker compose up -d --build
 ```
@@ -228,7 +228,7 @@ Cron щодня о 4:00:
 crontab -e
 ```
 ```
-0 4 * * * /opt/ua-sun-tg-bot/deploy/backup.sh >> /var/log/ua-sun-backup.log 2>&1
+0 4 * * * /app/ua-sun-tg-bot/deploy/backup.sh >> /var/log/ua-sun-backup.log 2>&1
 ```
 
 Налаштування скрипта через змінні: `DB_PATH`, `BACKUP_DIR`, `KEEP_DAYS`.
@@ -249,9 +249,9 @@ docker compose up -d
 Потрібен Python 3.10+ (рекомендовано 3.12; код лишається сумісним з 3.9).
 
 ```bash
-sudo useradd --system --home /opt/ua-sun-tg-bot uasunbot
+sudo useradd --system --home /app/ua-sun-tg-bot uasunbot
 
-cd /opt/ua-sun-tg-bot
+cd /app/ua-sun-tg-bot
 python3.12 -m venv .venv
 .venv/bin/pip install -e .
 
@@ -260,7 +260,7 @@ nano .env                    # вписати BOT_TOKEN
 chmod 600 .env
 
 mkdir -p data
-sudo chown -R uasunbot:uasunbot /opt/ua-sun-tg-bot
+sudo chown -R uasunbot:uasunbot /app/ua-sun-tg-bot
 
 sudo cp deploy/ua-sun-tg-bot.service /etc/systemd/system/
 sudo systemctl daemon-reload
@@ -274,7 +274,7 @@ systemctl status ua-sun-tg-bot
 journalctl -u ua-sun-tg-bot -f
 ```
 
-Unit розрахований на код у `/opt/ua-sun-tg-bot` під користувачем `uasunbot`.
+Unit розрахований на код у `/app/ua-sun-tg-bot` під користувачем `uasunbot`.
 Якщо у вас інші шляхи — поправте `WorkingDirectory`, `ExecStart` і `ReadWritePaths`.
 
 Міграції в цьому варіанті виконує `ExecStartPre` перед кожним запуском.

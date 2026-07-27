@@ -1,7 +1,14 @@
+# Фіксоване ім'я проєкту: не залежить від назви теки на сервері й не дає
+# випадково підняти другу копію бота з того самого коду.
+name: ua-sun-tg-bot
+
 services:
   bot:
+    # Прод тягне готовий образ із GHCR (.github/workflows/deploy.yml),
+    # локально той самий тег збирається через `docker compose up -d --build`.
+    # IMAGE_TAG дозволяє відкотитись на конкретну версію: IMAGE_TAG=v42.
+    image: ghcr.io/vlad-kozak/ua-sun-tg-bot:${IMAGE_TAG:-latest}
     build: .
-    image: ua-sun-tg-bot:latest
     container_name: ua-sun-tg-bot
     restart: unless-stopped
     env_file: .env
