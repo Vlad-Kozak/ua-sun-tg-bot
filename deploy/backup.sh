@@ -3,7 +3,7 @@
 # дати побитий знімок, тому використовуємо .backup / backup API.
 #
 # Cron щодня о 4:00:
-#   0 4 * * * /opt/ua-sun-tg-bot/deploy/backup.sh >> /var/log/ua-sun-backup.log 2>&1
+#   0 4 * * * /app/ua-sun-tg-bot/deploy/backup.sh >> /var/log/ua-sun-backup.log 2>&1
 set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
